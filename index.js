@@ -44,8 +44,5 @@ function saveLog(){
     fs.writeFileSync(txtURL, siteData.msg);
     fs.writeFileSync(dataURL, data);
 }
-<<<<<<< HEAD
 
 app.listen(PORT, () => console.log(`Server Listening on ${PORT}`));
-=======
->>>>>>> d6d2dfa679c7dc9398f28b1cb0d39277bf717f15
