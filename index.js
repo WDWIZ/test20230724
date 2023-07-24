@@ -13,17 +13,17 @@ let siteData = {
     "msg" : null
 }
 
-const txtURL = './text.txt';
-const dataURL = './log.txt';
+const txtURL = '/text.txt';
+const dataURL = '/log.txt';
 
-let data = fs.readFileSync(dataURL, 'utf-8');
+let data = fs.readFileSync(__dirname + dataURL, 'utf-8');
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
 });
 
 app.get('/api', (req, res) => {
-    const txt = fs.readFileSync(txtURL).toString();
+    const txt = fs.readFileSync(__dirname + txtURL).toString();
     siteData.msg = txt;
     
     res.send(siteData.msg);
@@ -41,8 +41,8 @@ function saveLog(){
     const currentTime = new Date();
     data += `${currentTime} : ${siteData.msg}\n`;
 
-    fs.writeFileSync(txtURL, siteData.msg);
-    fs.writeFileSync(dataURL, data);
+    fs.writeFileSync(__dirname + txtURL, siteData.msg);
+    fs.writeFileSync(__dirname + dataURL, data);
 }
 
 app.listen(PORT, () => console.log(`Server Listening on ${PORT}`));
