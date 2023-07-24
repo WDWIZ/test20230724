@@ -11,6 +11,6 @@ app.set('view engine', 'ejs');
 
 const PORT = process.env.PORT || 3000;
 
-app.get('/', (req, res) => res.sendFile(__dirname + '/index.html'));
+app.get('/', (req, res) => res.sendFile(__dirname + '/views/index.html'));
 
 app.listen(PORT, () => console.log(`Server Listening on ${PORT}`));
