@@ -1,50 +1,16 @@
 const express = require('express');
-const fs = require('fs');
-const socket = require('socket.io');
-const http = require('http');
-
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-const httpServer = http.createServer(app);
-const io = socket(httpServer);
-
-let siteData = {
+const siteData = {
     "msg" : null
 };
 
+app.use(express.json());
+app.use(express.static('public'));
 app.set('view engine', 'ejs');
-app.use(express.static('./public'));
 
-httpServer.listen(PORT, (req, res) => {
-    console.log(`Server Listening on ${PORT} `);
-});
+const PORT = process.env.PORT || 3000;
 
-const txtURL = './text.txt';
-const dataURL = './log.txt';
+app.get('/', (req, res) => res.render('index.ejs', siteData));
 
-let data = fs.readFileSync(dataURL, 'utf-8');
-
-app.get('/', (req, res) => {
-    const txt = fs.readFileSync(txtURL).toString();
-    siteData.msg = txt;
-    
-    res.render('index.ejs', siteData);
-});
-
-io.sockets.on('connection', (socket) => {
-    socket.on('new_message', (query) => {
-        siteData.msg = query.msg;
-        newMessage();
-
-        io.emit('message', query.msg);
-    });
-});
-
-function newMessage(){
-    const currentTime = new Date();
-    data += `${currentTime} : ${siteData.msg}\n`;
-
-    fs.writeFileSync(txtURL, siteData.msg);
-    fs.writeFileSync(dataURL, data);
-}
+app.listen(PORT, () => console.log(`Server Listening on ${PORT}`));
