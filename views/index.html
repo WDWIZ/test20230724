@@ -9,15 +9,16 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 </head>
 <body>
-    <script src="/socket.io/socket.io.js"></script> 
-    <script defer src="./scripts/index.js"></script>
-
-        <input type="text" id="input" placeholder=" " maxlength="10" name="msg" autocomplete="off" onkeypress="isInput(event);" />
+    <form id="form">
+        <input type="text" id="input" placeholder=" " maxlength="10" name="msg" autocomplete="off" />
         <span id="span">입력...</span>
-        <button type="submit" onclick="submit();"><span class="material-symbols-outlined">check</span></button>
+        <button type="submit"><span class="material-symbols-outlined">check</span></button>
+    </form>
+    
+    
+    <h1 id="msg"></h1>
 
-    <h1 id="msg">MSG</h1>
-
+    <script src="scripts/index.js"></script>
 <!--
     IDBI UNION
 

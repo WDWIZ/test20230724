@@ -1,14 +1,23 @@
-const socket = io();
+const form = document.querySelector('#form');
+const input = document.querySelector("#input");
 
-function submit(){
-    const inp = document.querySelector("#input");
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-    const msg = inp.value;
+    const msg = input.value;
 
-    inp.value = '';
+    input.value = '';
 
-    socket.emit('new_message', {"msg" : msg});
-}
+    fetch('./submit', {
+        "method" : "POST",
+        "headers" : {
+            'Content-Type' : 'application/x-www-form-urlencoded'
+        },
+        "body" : msg
+    })
+    .then(res => res.text())
+    .then(data => displayMessage(data));
+});
 
 function displayMessage(msg){
     const display = document.querySelector("#msg");
@@ -16,21 +25,13 @@ function displayMessage(msg){
     display.innerHTML = msg;
 }
 
-function isInput(e){
-    e = e || window.event;
-    if (e.keyCode == 13) submit();
-}
-
 async function getMessage(){
-    const res = await fetch('./api')
+    const msg = await fetch('./api')
                         .then(res => res.text())
                         .then(data => displayMessage(data));
 }
 
-socket.on('message', (msg) => {
-    displayMessage(msg);
-});
-
 window.onload = () => {
     getMessage();
+    const fetchMessage = setInterval(getMessage, 1000);
 }

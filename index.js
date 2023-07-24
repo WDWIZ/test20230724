@@ -1,24 +1,17 @@
 const express = require('express');
 const fs = require('fs');
-const socket = require('socket.io');
-const http = require('http');
+const bodyParser = require('body-parser');
 
 const app = express();
-const httpServer = http.createServer(app);
-const io = socket(httpServer);
 
-app.set('view engine', 'ejs');
 app.use(express.static('./public'));
+app.use(bodyParser.urlencoded({extend : false}))
 
 const PORT = process.env.PORT || 3000;
 
 let siteData = {
     "msg" : null
 }
-
-httpServer.listen(PORT, (req, res) => {
-    console.log(`Server Listening on ${PORT} `);
-});
 
 const txtURL = './text.txt';
 const dataURL = './log.txt';
@@ -36,19 +29,20 @@ app.get('/api', (req, res) => {
     res.send(siteData.msg);
 });
 
-io.sockets.on('connection', (socket) => {
-    socket.on('new_message', (query) => {
-        siteData.msg = query.msg;
-        newMessage();
+app.post('/submit', (req, res) => {
+    const msg = Object.keys(req.body)[0];
 
-        io.emit('message', query.msg);
-    });
+    siteData.msg = msg;
+    saveLog();
+    res.send(msg);
 });
 
-function newMessage(){
+function saveLog(){
     const currentTime = new Date();
     data += `${currentTime} : ${siteData.msg}\n`;
 
     fs.writeFileSync(txtURL, siteData.msg);
     fs.writeFileSync(dataURL, data);
 }
+
+app.listen(PORT, () => console.log(`Server Listening on ${PORT}`));
