@@ -7,7 +7,6 @@ const app = express();
 const httpServer = http.createServer(app);
 const io = socket(httpServer);
 
-app.set('view engine', 'ejs');
 app.use(express.static('./public'));
 
 const PORT = process.env.PORT || 3000;
