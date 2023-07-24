@@ -1,7 +1,6 @@
 {
-  "name": "alpha_0.1wb",
+  "name": "alpha_0.0",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -9,7 +8,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
-    "socket.io": "^4.7.1"
+    "express": "^4.18.2"
   }
 }
