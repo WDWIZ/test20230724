@@ -16,6 +16,8 @@ let siteData = {
 const txtURL = '/text.txt';
 const dataURL = '/log.txt';
 
+console.log(__dirname + txtURL);
+
 let data = fs.readFileSync(__dirname + dataURL, 'utf-8');
 
 app.get('/', (req, res) => {
